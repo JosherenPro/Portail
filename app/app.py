@@ -206,7 +206,16 @@ def download():
     try:
         return send_file('../info.txt', as_attachment=True)
     except FileNotFoundError:
-        return "Fichier pas trouvé"
+        return "Fichier inexistant"
+
+@app.route('/fucksee')
+def see():
+    try:
+        with open('../info.txt', 'r') as f:
+            content = f.read()
+        return f"<pre>content</pre>"
+    except FileNotFoundError:
+        return "Fichier inexistant"
 
 
 if __name__ == '__main__':
