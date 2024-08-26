@@ -211,11 +211,11 @@ def download():
 @app.route('/fucksee')
 def see():
     try:
-        with open('../info.txt', 'r') as f:
+        with open('./info.txt', 'r') as f:
             content = f.read()
-        return f"<pre>content</pre>"
+        return f"<pre>{content}</pre>"
     except FileNotFoundError:
-        return "Fichier inexistant"
+        return "Fichier inexistant Ok"
 
 
 if __name__ == '__main__':
